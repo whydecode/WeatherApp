@@ -4,7 +4,6 @@ const APIKEY = "42645a871a07b00a2f44c73863474fa9";
 function Weather() {
   const [city, setCity] = useState("");
   const [weather, setWeather] = useState({});
-  const [isCity, setIsCity] = useState(false);
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (city === "") {
@@ -15,7 +14,6 @@ function Weather() {
     );
     const data = await response.json();
     setWeather(data);
-    setIsCity(true);
   };
 
   return (
