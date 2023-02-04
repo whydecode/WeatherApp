@@ -7,8 +7,8 @@ function Weather() {
   const [isCity, setIsCity] = useState(false);
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if(city === ""){
-        return;
+    if (city === "") {
+      return;
     }
     const response = await fetch(
       `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIKEY}`
@@ -17,13 +17,10 @@ function Weather() {
     setWeather(data);
     setIsCity(true);
   };
-  const handleReset = () => {
-    setCity("");
-    setIsCity(false);
-  };
+
   return (
     <div className="weather">
-      <div className="home" style={{ display: isCity ? "none" : "flex" }}>
+      <div className="home">
         <form onSubmit={handleSubmit}>
           <h1>Weather</h1>
           <label>
@@ -33,19 +30,37 @@ function Weather() {
               value={city}
               onChange={(e) => setCity(e.target.value)}
             />
+            <button type="submit">Search</button>
           </label>
-          <button type="submit">Submit</button>
         </form>
       </div>
-      <div style={{ display: isCity ? "block" : "none" }}>
+      <div>
         {weather.name && (
-          <div>
-            <p>City: {weather.name}</p>
-            <p>Temperature: {Math.floor(weather.main.temp - 273)}°C</p>
-            <p>Weather: {weather.weather[0].description}</p>
-            <button type="reset" onClick={handleReset}>
-              Reset
-            </button>
+          <div className="weatherCard">
+            <h3>{weather.name}</h3>
+            <span>{weather.weather[0].description}</span>
+            <br />
+            <p>
+              <img
+                src={`http://openweathermap.org/img/w/${weather.weather[0].icon}.png`}
+                alt=""
+              />
+            </p>
+            <div className="data">
+              <div className="temp">
+                Temperature: <br />{" "}
+                <span>{Math.floor(weather?.main?.temp - 273)}°C</span>
+              </div>
+              <div className="wind">
+                Wind: <br /> <span>{weather?.wind?.speed}Km/h</span>
+              </div>
+              <div className="humidity">
+                Humidity: <br /> <span>{weather?.main?.humidity}%</span>
+              </div>
+              <div className="visibility">
+                Visibility: <br /> <span>{weather?.visibility} Km</span>
+              </div>
+            </div>
           </div>
         )}
       </div>
